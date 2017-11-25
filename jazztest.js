@@ -1,5 +1,6 @@
 // Create an object to store the feature group dataset
 // and methods to test the total chance percentage
+let document;
 let groups = new (function(){
     // Define the feature group dataset
     this.groups = [
@@ -39,10 +40,14 @@ let groups = new (function(){
         //Warn user if the percentages do not add up to 100
         if(total !== 100){
             console.warn(`Chance percentages add up to ${total}. They must add up to 100.`);
-            document.write(`Chance percentages add up to ${total}. They must add up to 100.<br>`);
+            if(document){
+                document.write(`Chance percentages add up to ${total}. They must add up to 100.<br>`);
+            };
         }else{
             console.log('Chance percentages add up to 100.');
-            document.write('Chance percentages add up to 100.<br><br>');
+            if(document){
+                document.write('Chance percentages add up to 100.<br><br>'); 
+            };
             // Build assign array if percentages add up to 100
             obj.groups.map((g)=>{
                 for(let i = 1; i <= g.chance; i++){
@@ -84,11 +89,15 @@ const assign = ((obj, arr)=>{
     if(obj.chanceTotal !== 100){
         // Warn user that groups cannot be assigned if the chance percentages do not add up to 100
         console.warn('Chance percentages must equal 100 to assign groups to customers.');
-        document.write('Chance percentages must equal 100 to assign groups to customers.<br><br>');
+        if(document){
+            document.write('Chance percentages must equal 100 to assign groups to customers.<br><br>');
+        };
     }else{
         // Assign if the chance percentages add up to 100
         console.log('Assigning groups to customers...');
-        document.write('Assigning groups to customers...<br><br>');
+        if(document){
+            document.write('Assigning groups to customers...<br><br>');
+        };
         for(let i in arr){
             if(!arr[i].group){
                 // Get a random number between 1 and 100
@@ -98,10 +107,14 @@ const assign = ((obj, arr)=>{
                 arr[i].group = obj.assign[num - 1].name;
                 arr[i].features = obj.assign[num - 1].features;
                 console.log(`${arr[i].name} has been assigned to ${arr[i].group}`);
-                document.write(`${arr[i].name} has been assigned to ${arr[i].group}<br>`)
+                if(document){
+                    document.write(`${arr[i].name} has been assigned to ${arr[i].group}<br>`);
+                };
             }else{
                 console.log(`${arr[i].name} already has a group assigned.`);
-                document.write(`${arr[i].name} already has a group assigned.<br>`);
+                if(document){
+                    document.write(`${arr[i].name} already has a group assigned.<br>`);
+                };
             }
         };
     }
@@ -126,8 +139,10 @@ const checkFeature = (customer, feature)=>{
         return c[0].features.indexOf(f) > -1
     }
 }
-
+let test = checkFeature('Widget Co', 'Feature A');
 console.log('Testing if Widget Co has access to Feature A.');
-document.write('<br>Testing if Widget Co has access to Feature A:<br>')
-console.log(checkFeature('Widget Co', 'Feature A'));
-document.write(`${checkFeature('Widget Co', 'Feature A')}<br>`);
+console.log(test);
+if(document){
+    document.write('<br>Testing if Widget Co has access to Feature A:<br>');
+    document.write(test);
+};
